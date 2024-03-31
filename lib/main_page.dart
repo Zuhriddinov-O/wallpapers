@@ -101,7 +101,7 @@ class _MainPageState extends State<MainPage> {
                         shape: MaterialStatePropertyAll(
                           CircleBorder(),
                         ),
-                        backgroundColor: MaterialStateColor.transparent),
+                        backgroundColor: MaterialStatePropertyAll(Colors.transparent)),
                     icon: Image.asset(
                       pageIndex == 0 ? "assets/logos/home_icon.png" : "assets/logos/home_icon1.png",
                       color: pageIndex != 0 ? Colors.black : null,
@@ -109,7 +109,9 @@ class _MainPageState extends State<MainPage> {
                   ),
                   IconButton(
                     icon: Image.asset(
-                      pageIndex == 1 ? "assets/logos/rating_icon.png" : "assets/logos/rating_icon1.png",
+                      pageIndex == 1
+                          ? "assets/logos/rating_icon.png"
+                          : "assets/logos/rating_icon1.png",
                       color: pageIndex != 1 ? Colors.black : null,
                     ),
                     color: pageIndex == 1 ? Colors.purpleAccent : Colors.black,
@@ -121,7 +123,9 @@ class _MainPageState extends State<MainPage> {
                   ),
                   IconButton(
                     icon: Image.asset(
-                      pageIndex == 2 ? "assets/logos/random_icon.png" : "assets/logos/random_icon1.png",
+                      pageIndex == 2
+                          ? "assets/logos/random_icon.png"
+                          : "assets/logos/random_icon1.png",
                       color: pageIndex != 2 ? Colors.black : null,
                     ),
                     onPressed: () {
@@ -157,8 +161,8 @@ class _MainPageState extends State<MainPage> {
           children: [
             DrawerHeader(
               curve: Curves.bounceIn,
-              decoration: Decoration.lerp(
-                  const MagnifierDecoration(), const MagnifierDecoration(), VisualDensity.maximumDensity),
+              decoration: Decoration.lerp(const MagnifierDecoration(), const MagnifierDecoration(),
+                  VisualDensity.maximumDensity),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
