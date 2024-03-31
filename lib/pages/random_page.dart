@@ -58,9 +58,9 @@ class _RandomPageState extends State<RandomPage> {
           ),
         ),
         Container(
-          width: double.infinity,
-          height: MediaQuery.of(context).size.height / 1.4 / 0.977,
           padding: const EdgeInsets.all(12),
+          width: double.infinity,
+          height: MediaQuery.of(context).size.height / 1.3782,
           child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: kIsWeb ? 5 : 2,

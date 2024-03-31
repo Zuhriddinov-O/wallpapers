@@ -22,9 +22,7 @@ class _MainPageState extends State<MainPage> {
     const HomePage(),
     const RatedPage(),
     const RandomPage(),
-    LikedPage(
-      likedList: [],
-    ),
+    LikedPage(),
   ];
   List<String> labelText = ["Home", "Rated", "Random", "Favorites"];
   List<Photos> foundUsers = [];

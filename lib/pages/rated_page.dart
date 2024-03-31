@@ -64,7 +64,7 @@ class _RatedPageState extends State<RatedPage> {
         Container(
           padding: const EdgeInsets.all(12),
           width: double.infinity,
-          height: MediaQuery.of(context).size.height / 1.4 / 0.977,
+          height: MediaQuery.of(context).size.height / 1.3782,
           child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: kIsWeb ? 5 : 2,
