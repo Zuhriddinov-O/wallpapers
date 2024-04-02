@@ -88,7 +88,6 @@ class _RandomPageState extends State<RandomPage> {
                   return InfoPage(
                     photo: photo,
                     photos: photo,
-                    likedList: [],
                   );
                 },
               );

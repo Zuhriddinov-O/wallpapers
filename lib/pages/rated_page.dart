@@ -93,7 +93,7 @@ class _RatedPageState extends State<RatedPage> {
                           );
                         },
                         openBuilder: (context, action) {
-                          return InfoPage(photo: ratedPhotos, photos: ratedPhotos, likedList: []);
+                          return InfoPage(photo: ratedPhotos, photos: ratedPhotos);
                         },
                       ),
                     ),

@@ -112,7 +112,6 @@ class _HomePageState extends State<HomePage> {
                       return InfoPage(
                         photo: photo,
                         photos: photo,
-                        likedList: [],
                       );
                     },
                   ),

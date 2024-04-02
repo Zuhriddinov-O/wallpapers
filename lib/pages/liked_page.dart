@@ -3,10 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:wallpapers/db/db_helper.dart';
 import 'package:wallpapers/storage/dio_repository.dart';
-
-import '../storage/wallpapers.dart';
-import 'info_page.dart';
+import 'package:wallpapers/storage/favorites.dart';
 
 class LikedPage extends StatefulWidget {
   const LikedPage({super.key});
@@ -19,15 +18,15 @@ class LikedPage extends StatefulWidget {
 final _repo = DioRepositoryImpl();
 
 class _LikedPageState extends State<LikedPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFC2D9EC),
       body: RefreshIndicator(
         child: FutureBuilder(
-          future: _repo.getPhotos(),
+          future: SqlHelper.getAllPhoto(),
           builder: (context, snapshot) {
+            print(snapshot.data);
             if (snapshot.data != null && snapshot.data?.isNotEmpty == true) {
               return _successField(snapshot.data ?? []);
             } else if (snapshot.data == null) {
@@ -46,13 +45,7 @@ class _LikedPageState extends State<LikedPage> {
     );
   }
 
-  _successField(List<Photos> photos) {
-    List<Photos>photoList=[];
-    for (var element in photos) {
-      if (element.liked == false) {
-        photoList.add(element);
-      }
-    }
+  _successField(List<Favorites> photos) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -77,10 +70,9 @@ class _LikedPageState extends State<LikedPage> {
               crossAxisSpacing: 12,
               mainAxisExtent: 320,
             ),
-            itemCount: photoList.length,
+            itemCount: photos.length,
             itemBuilder: (context, index) {
-              final liked = photoList[index];
-              print(photoList[index].liked);
+              final liked = photos[index];
               return SizedBox(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -91,18 +83,19 @@ class _LikedPageState extends State<LikedPage> {
                       child: OpenContainer(
                         closedBuilder: (context, action) {
                           return Image.network(
-                            liked.src?.medium ?? "",
+                            liked.medium ??"",
                             fit: BoxFit.fill,
                             width: MediaQuery.of(context).size.width,
                             height: 290,
                           );
                         },
                         openBuilder: (context, action) {
-                          return InfoPage(photo: liked, photos: liked, likedList: []);
+                          return Container();
+                         // return InfoPage(photo: liked, photos: liked);
                         },
                       ),
                     ),
-                    Text("Rating: ${liked.height} ⭐️⭐️⭐️⭐️⭐️"),
+                    Text("Rating: ${liked.liked} ⭐️⭐️⭐️⭐️⭐️"),
                   ],
                 ),
               );

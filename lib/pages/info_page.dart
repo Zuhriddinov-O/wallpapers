@@ -1,19 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:wallpapers/db/db_helper.dart';
+import 'package:wallpapers/storage/favorites.dart';
 import 'package:wallpapers/storage/wallpapers.dart';
 
 class InfoPage extends StatefulWidget {
-  InfoPage({super.key, required this.photo, required Photos photos, required this.likedList});
+  InfoPage({super.key, required this.photo, required Photos photos});
 
  final Photos photo;
-  List<int> likedList;
 
   @override
   State<InfoPage> createState() => _InfoPageState();
 }
 
 class _InfoPageState extends State<InfoPage> {
-  bool isLiked = false;
+  bool _isLiked = false;
+
+  @override
+  void initState() {
+    _checkState();
+    super.initState();
+  }
+
+  void _checkState() async {
+    _isLiked = await SqlHelper.getById(widget.photo.id) != null;
+    setState(() {
+
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,18 +50,19 @@ class _InfoPageState extends State<InfoPage> {
                   padding: const EdgeInsets.all(12.0),
                   child: IconButton(
                       onPressed: () {
-                        isLiked = widget.photo.liked!;
+                        if(_isLiked == false) {
+                          _isLiked = true;
+                          SqlHelper.saveSign(Favorites(id: null, photo_id: widget.photo.id, photographer: widget.photo.photographer, medium: widget.photo.src?.medium, liked: "true"));
+                        } else {
+                          _isLiked = false;
+                          SqlHelper.deletePhoto(widget.photo.id);
+                        }
                         setState(() {
-                          isLiked = !isLiked;
-                          widget.photo.liked = isLiked;
 
-
-                          widget.photo.liked == true ? widget.likedList.add(widget.photo.id!) : widget.likedList.remove(widget.photo.id!);
                         });
-                        // print(widget.likedList);
                       },
-                      icon: Icon(isLiked ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
-                          color: isLiked ? Colors.red : Colors.white)),
+                      icon: Icon(_isLiked ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
+                          color: _isLiked ? Colors.red : Colors.white)),
                 )
               ],
             ),
