@@ -10,7 +10,6 @@ import 'package:wallpapers/storage/favorites.dart';
 class LikedPage extends StatefulWidget {
   const LikedPage({super.key});
 
-
   @override
   State<LikedPage> createState() => _LikedPageState();
 }
@@ -46,63 +45,77 @@ class _LikedPageState extends State<LikedPage> {
   }
 
   _successField(List<Favorites> photos) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: CupertinoTextField(
-            onChanged: (query) {
-              // runFilter(query);
-            },
-            placeholder: "Search...",
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(12),
-          width: double.infinity,
-          height: MediaQuery.of(context).size.height / 1.3782,
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: kIsWeb ? 5 : 2,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              mainAxisExtent: 320,
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: CupertinoTextField(
+              onChanged: (query) {
+                // runFilter(query);
+              },
+              placeholder: "Search...",
             ),
-            itemCount: photos.length,
-            itemBuilder: (context, index) {
-              final liked = photos[index];
-              return SizedBox(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: OpenContainer(
-                        closedBuilder: (context, action) {
-                          return Image.network(
-                            liked.medium ??"",
-                            fit: BoxFit.fill,
-                            width: MediaQuery.of(context).size.width,
-                            height: 290,
-                          );
-                        },
-                        openBuilder: (context, action) {
-                          return Container();
-                         // return InfoPage(photo: liked, photos: liked);
-                        },
-                      ),
-                    ),
-                    Text("Rating: ${liked.liked} ⭐️⭐️⭐️⭐️⭐️"),
-                  ],
-                ),
-              );
-            },
           ),
-        )
-      ],
+          Container(
+            padding: const EdgeInsets.all(12),
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height / 1.3782,
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: kIsWeb ? 5 : 2,
+                mainAxisSpacing: 12,
+                crossAxisSpacing: 12,
+                mainAxisExtent: 320,
+              ),
+              itemCount: photos.length,
+              itemBuilder: (context, index) {
+                final liked = photos[index];
+                return SizedBox(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: OpenContainer(
+                          closedBuilder: (context, action) {
+                            return Image.network(
+                              liked.medium ?? "",
+                              fit: BoxFit.fill,
+                              width: MediaQuery.of(context).size.width,
+                              height: 290,
+                            );
+                          },
+                          openBuilder: (context, action) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  image: DecorationImage(
+                                      image: NetworkImage(liked.medium ?? ""),
+                                      colorFilter: const ColorFilter.linearToSrgbGamma(),
+                                      fit: BoxFit.contain)),
+                              child: AppBar(
+                                foregroundColor: Colors.white,
+                                forceMaterialTransparency: true,
+                                title: Text(liked.photographer ?? ""),
+                              ),
+                            );
+                            // return InfoPage(photo: liked, photos: liked);
+                          },
+                        ),
+                      ),
+                      Text("Rating: ${liked.liked} ⭐️⭐️⭐️⭐️⭐️"),
+                    ],
+                  ),
+                );
+              },
+            ),
+          )
+        ],
+      ),
     );
   }
 }

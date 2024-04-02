@@ -44,57 +44,59 @@ class _RandomPageState extends State<RandomPage> {
   }
 
   _successField(List<Photos> photos) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: CupertinoTextField(
-            onChanged: (query) {
-              // runFilter(query);
-            },
-            placeholder: "Search...",
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(12),
-          width: double.infinity,
-          height: MediaQuery.of(context).size.height / 1.3782,
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: kIsWeb ? 5 : 2,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              mainAxisExtent: 300,
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: CupertinoTextField(
+              onChanged: (query) {
+                // runFilter(query);
+              },
+              placeholder: "Search...",
             ),
-            itemCount: photos.length,
-            itemBuilder: (context, index) {
-              var photo = photos[index];
-              photos.shuffle();
-              return OpenContainer(
-                closedShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                closedBuilder: (BuildContext context, void Function() action) {
-                  return SizedBox(
-                    child: Image.network(
-                      photo.src?.medium ?? "",
-                      fit: BoxFit.fill,
-                      width: MediaQuery.of(context).size.width,
-                      height: 290,
-                    ),
-                  );
-                },
-                openBuilder: (BuildContext context, void Function({Object? returnValue}) action) {
-                  return InfoPage(
-                    photo: photo,
-                    photos: photo,
-                  );
-                },
-              );
-            },
           ),
-        ),
-      ],
+          Container(
+            padding: const EdgeInsets.all(12),
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height / 1.3782,
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: kIsWeb ? 5 : 2,
+                mainAxisSpacing: 12,
+                crossAxisSpacing: 12,
+                mainAxisExtent: 300,
+              ),
+              itemCount: photos.length,
+              itemBuilder: (context, index) {
+                var photo = photos[index];
+                photos.shuffle();
+                return OpenContainer(
+                  closedShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  closedBuilder: (BuildContext context, void Function() action) {
+                    return SizedBox(
+                      child: Image.network(
+                        photo.src?.medium ?? "",
+                        fit: BoxFit.fill,
+                        width: MediaQuery.of(context).size.width,
+                        height: 290,
+                      ),
+                    );
+                  },
+                  openBuilder: (BuildContext context, void Function({Object? returnValue}) action) {
+                    return InfoPage(
+                      photo: photo,
+                      photos: photo,
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

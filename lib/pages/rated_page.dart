@@ -48,63 +48,65 @@ class _RatedPageState extends State<RatedPage> {
   List ratedList = [];
 
   _successField(List<Photos> photos) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: CupertinoTextField(
-            onChanged: (query) {
-              // runFilter(query);
-            },
-            placeholder: "Search...",
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(12),
-          width: double.infinity,
-          height: MediaQuery.of(context).size.height / 1.3782,
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: kIsWeb ? 5 : 2,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              mainAxisExtent: 320,
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: CupertinoTextField(
+              onChanged: (query) {
+                // runFilter(query);
+              },
+              placeholder: "Search...",
             ),
-            itemCount: photos.length,
-            itemBuilder: (context, index) {
-              photos.sort((a, b) => b.height!.compareTo(a.height as num));
-              final ratedPhotos = photos[index];
-              return SizedBox(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: OpenContainer(
-                        closedBuilder: (context, action) {
-                          return Image.network(
-                            ratedPhotos.src?.medium ?? "",
-                            fit: BoxFit.fill,
-                            width: MediaQuery.of(context).size.width,
-                            height: 290,
-                          );
-                        },
-                        openBuilder: (context, action) {
-                          return InfoPage(photo: ratedPhotos, photos: ratedPhotos);
-                        },
-                      ),
-                    ),
-                    Text("Rating: ${ratedPhotos.height} ⭐️⭐️⭐️⭐️⭐️"),
-                  ],
-                ),
-              );
-            },
           ),
-        ),
-      ],
+          Container(
+            padding: const EdgeInsets.all(12),
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height / 1.3782,
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: kIsWeb ? 5 : 2,
+                mainAxisSpacing: 12,
+                crossAxisSpacing: 12,
+                mainAxisExtent: 320,
+              ),
+              itemCount: photos.length,
+              itemBuilder: (context, index) {
+                photos.sort((a, b) => b.height!.compareTo(a.height as num));
+                final ratedPhotos = photos[index];
+                return SizedBox(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: OpenContainer(
+                          closedBuilder: (context, action) {
+                            return Image.network(
+                              ratedPhotos.src?.medium ?? "",
+                              fit: BoxFit.fill,
+                              width: MediaQuery.of(context).size.width,
+                              height: 290,
+                            );
+                          },
+                          openBuilder: (context, action) {
+                            return InfoPage(photo: ratedPhotos, photos: ratedPhotos);
+                          },
+                        ),
+                      ),
+                      Text("Rating: ${ratedPhotos.height} ⭐️⭐️⭐️⭐️⭐️"),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

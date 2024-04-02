@@ -45,28 +45,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   _successField(List<Photos> photos) {
-    List foundUsers = [];
-
-    @override
-    void initState() {
-      foundUsers = photos as List;
-      super.initState();
-    }
-
-    void runFilter(String query) {
-      List<Photos> result = [];
-      if (query.isEmpty) {
-        result = photos;
-      } else {
-        result = photos
-            .where((element) => element.photographer!.toLowerCase().contains(query.toLowerCase()))
-            .toList();
-      }
-      setState(() {
-        foundUsers = result;
-      });
-    }
-
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -75,9 +53,7 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: CupertinoTextField(
-              onChanged: (query) {
-                runFilter(query);
-              },
+              onChanged: (query) {},
               placeholder: "Search...",
             ),
           ),
@@ -108,7 +84,8 @@ class _HomePageState extends State<HomePage> {
                         ),
                       );
                     },
-                    openBuilder: (BuildContext context, void Function({Object? returnValue}) action) {
+                    openBuilder:
+                        (BuildContext context, void Function({Object? returnValue}) action) {
                       return InfoPage(
                         photo: photo,
                         photos: photo,
